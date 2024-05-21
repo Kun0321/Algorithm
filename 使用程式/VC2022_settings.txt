@@ -1,0 +1,57 @@
+以下路徑都放在C槽
+
+Make sure Python's path and matplotlib is installed.
+	- Download Python from https://www.python.org/ (3.8.6)
+	- Open cmd.exe terminal
+	- run pip install matplotlib --target=c:\Python38\Lib\site-packages
+
+
+Install boost library: (1.84.0)
+	- Download from https://www.boost.org/
+	- Extract the compressed file to the installation folder (e.g. D:\boost_1_84_0)
+	- Open "x86_x64 Cross Tools Command Prompt for VS 2022" terminal
+	- run .\bootstrap.bat
+	- run .\b2.exe
+
+Install Graphviz: (10.0.1)
+	- Download from https://graphviz.org/download/
+	- Follow the instruction on the screen
+	- 把Graphviz\bin加到PATH環境變數中 (D:\Graphviz\bin)
+
+Install OpenCV: (4.9.0)
+	- Download from https://opencv.org/releases/
+	- Extract the compressed file to the installation folder (e.g. D:\opencv)
+
+------------------
+ Project settings:
+ 
+ Release x64
+ ----------------
+ 偵錯:
+	- 在「環境」裡面加上 PATH=C:\python38;%PATH%;
+ 
+ 到VC++ 目錄中:
+	- 在Include目錄 裡面加上C:\opencv\build\include  (include的路徑)
+							C:\Graphviz\include
+							C:\boost_1_84_0
+	C:\opencv\build\include;C:\Graphviz\include;C:\boost_1_84_0;
+
+	- 在Library目錄 裡面加上C:\opencv\build\x64\vc16\lib  (lib的路徑)
+							C:\Graphviz\lib
+							C:\boost_1_84_0\stage\lib
+	C:\opencv\build\x64\vc16\lib;C:\Graphviz\lib;C:\boost_1_84_0\stage\lib;
+
+------------------		
+ C/C++ >　一般 ＞ 其他include目錄
+ C:\Python38\Lib\site-packages\numpy\core\include;C:\Python38\include;%(AdditionalIncludeDirectories)
+ 
+ 語言
+ C++語言標準 > ISO C++20
+  ----------------
+ 
+連結器 --> 一般
+其他程式庫目錄 >  C:\Python38\libs;C:\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)
+ 
+輸入 > 其他相依性 >  cdt.lib;cgraph.lib;gvc.lib;opencv_world470.lib;python38.lib;%(AdditionalDependencies)
+
+到opencv\build\x64\vc16\bin資料夾，裡面的opencv_world490.dll是之後寫opencv程式的時候必備的dll擋，寫好的程式資料夾下必須有*.dll才能運作。把它複製起來，到.cpp檔的同一個資料夾，把opencv_world490.dll貼上
